@@ -9,7 +9,7 @@ from logic.settings import *
 import datetime
 
 def search_data():
-    try:
+    # try:
         driver = initialize_webdriver(URL)
 
         with st.form(clear_on_submit=True, key='products'):
@@ -66,9 +66,9 @@ def search_data():
         time.sleep(15)
         inf.empty()
         inf2.empty()
-    except Exception as e:
-        print(f'Error: {e}')
-        st.error('Please try again.')
+    # except Exception as e:
+    #     print(f'Error: {e}')
+    #     st.error('Please try again.')
 
 if __name__ == '__main__':
     apply_settings('eMag Product Search',CENTERED)
