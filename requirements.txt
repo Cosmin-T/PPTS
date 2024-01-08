@@ -57,6 +57,7 @@ pygwalker==0.3.20
 PySocks==1.7.1
 python-dateutil==2.8.2
 python-decouple==3.8
+python-dotenv==1.0.0
 pytz==2023.3.post1
 referencing==0.32.1
 requests==2.31.0
@@ -89,6 +90,7 @@ urllib3==2.1.0
 validators==0.22.0
 wasmtime==12.0.0
 wcwidth==0.2.13
+webdriver-manager==4.0.1
 widgetsnbextension==4.0.9
 wsproto==1.2.0
 zipp==3.17.0

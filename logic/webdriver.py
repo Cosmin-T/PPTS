@@ -5,6 +5,7 @@ import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 from logic.util import *
 import time
 
@@ -38,7 +39,7 @@ def initialize_webdriver(URL):
         print('Headless Mode Enabled')
 
         # Creating the Chrome driver instance with the specified options and WebDriver path
-        driver = webdriver.Chrome(executable_path=webdriver_path, options=chrome_options)
+        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 
         # Setting the size of the Chrome window (not necessary in headless mode)
         # driver.set_window_size(1400, 1440)
