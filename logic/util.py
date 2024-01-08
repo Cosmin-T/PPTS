@@ -6,8 +6,14 @@ from logic.config_ini import *
 config = con()
 
 URL = 'https://www.emag.ro/'
-API_KEY = config['DEFAULT']['API_KEY']
-DETA_KEY = config['DEFAULT']['DETA_KEY']
+# use this for local
+# API_KEY = config['DEFAULT']['API_KEY']
+# DETA_KEY = config['DEFAULT']['DETA_KEY']
+
+# use this for streamlit
+API_KEY = st.secrets['API_KEY']
+DETA_KEY = st.secrets['DETA_KEY']
+
 SITE_KEY = "//script[contains(text(), 'grecaptcha')]"
 
 CROMEDRIVER_PATH = '/usr/local/bin/chromedriver'

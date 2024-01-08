@@ -9,10 +9,6 @@ from logic.settings import *
 import datetime
 
 def search_data():
-    headers = {
-        'authorization': st.secrets['API_KEY'],
-        'deta': st.secrets['DETA_KEY'],
-    }
     try:
         driver = initialize_webdriver(URL)
 
