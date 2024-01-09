@@ -27,19 +27,11 @@ def initialize_webdriver(URL):
 
         # Creating ChromeOptions instance
         chrome_options = Options()
-        if os.path.exists(CAPSOLVER_EXTENSION_PATH):
-            print("Path exists")
-            chrome_options.add_argument('--load-extension={0}'.format(CAPSOLVER_EXTENSION_PATH))
-            print('Extension Loaded')
-        else:
-            print(f"Path does not exist: {CAPSOLVER_EXTENSION_PATH}")
-
-
         chrome_options.add_argument('--headless')
         print('Headless Mode Enabled')
 
         # Creating the Chrome driver instance with the specified options and WebDriver path
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+        driver = webdriver.Chrome(executable_path=webdriver_path, options=chrome_options)
 
         # Setting the size of the Chrome window (not necessary in headless mode)
         # driver.set_window_size(1400, 1440)

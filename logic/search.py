@@ -118,16 +118,11 @@ def show_db_items():
     items = db.fetch().items
     if items:
         items_df = pd.DataFrame(items)
-        items_df.reset_index(inplace=True)
         items_df['Index'] = range(1, len(items_df) + 1)
-        items_df.rename(columns={'index': '#'}, inplace=True)
-        cols_to_include = ['#', 'Product Name', 'Price', 'Availability', 'Rating', 'Date']
+        cols_to_include = ['Index', 'Product Name', 'Price', 'Availability', 'Rating', 'Date']
         items_df = items_df[cols_to_include]
         with st.expander('Show',  expanded=not items_df.empty):
-             AgGrid(items_df, fit_columns_on_grid_load=True,
-                   gridOptions={
-                       'columnDefs': [{'field': col, 'width': 100 if col == '#' else 200} for col in items_df.columns]
-                   })
+            AgGrid(items_df, fit_columns_on_grid_load=True)
     else:
         information_2 = st.warning('No items found, you need to add some.')
         time.sleep(7)

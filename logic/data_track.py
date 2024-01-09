@@ -105,17 +105,12 @@ def is_item_match(item, pname, pprice, pdata):
 
 def display_found_items(found_items, pname):
     if found_items:
-        items_df = pd.DataFrame(found_items)
-        items_df.reset_index(inplace=True)
-        items_df['Index'] = range(1, len(items_df) + 1)
-        items_df.rename(columns={'index': '#'}, inplace=True)
-        cols_to_include = ['#', 'Product Name', 'Price', 'Availability', 'Rating', 'Date']
-        items_df = items_df[cols_to_include]
-        with st.expander('Show',  expanded=not items_df.empty):
-            AgGrid(items_df, fit_columns_on_grid_load=True,
-                   gridOptions={
-                       'columnDefs': [{'field': col, 'width': 100 if col == '#' else 200} for col in items_df.columns]
-                   })
+        item_df = pd.DataFrame(found_items)
+        item_df['Index'] = range(1, len(item_df) + 1)
+        cols_to_include = ['Index', 'Product Name', 'Price', 'Availability', 'Rating', 'Date']
+        item_df = item_df[cols_to_include]
+        with st.expander('Show', expanded=not item_df.empty):
+            AgGrid(item_df, fit_columns_on_grid_load=True)
             show_price_summary(found_items, pname)
     else:
         st.error('No items found.')
@@ -177,9 +172,17 @@ def show_price_summary(found_items, pname):
         </div>
         <div class="priceContainer">
             <h4>Average Price</h4>
-            <span class="priceDetail">{average_price}</span><br>
+            <span class="priceDetail">{average_price:} Lei</span><br>
             <!-- If you have a date for the average price, include it here -->
         </div>
     </div>
     """
     st.markdown(bento_html, unsafe_allow_html=True)
+
+    # col1, col2, col3 = st.columns(3)
+    # with col1:
+    #     st.markdown(f"**Highest Price:** {highest_price_item['Price']} - {highest_price_item['Date']}")
+    # with col2:
+    #     st.markdown(f"**Lowest Price:** {lowest_price_item['Price']} - {lowest_price_item['Date']}")
+    # with col3:
+    #     st.markdown(f"**Average Price:** {average_price:.2f} Lei")
