@@ -102,6 +102,10 @@ def search_items(driver, search_item_xpath, search_items, results_items_css, car
                 captha_succcess.empty()
             search.send_keys(search_it + Keys.ENTER)
 
+        finally:
+            driver.quit()
+            print('Driver exited successfully.')
+
 def delete_db_items():
     deta = Deta(DETA_KEY)
     db = deta.Base('CostCleverItems')

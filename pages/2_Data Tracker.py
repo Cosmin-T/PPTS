@@ -14,12 +14,18 @@ def data_track():
         PPRICE = st.slider('Product Price', min_value=0, max_value=20000, value=(0, 8000))
         PDATE = st.date_input('Product Date', value=(datetime.datetime.now().date(), datetime.datetime.now().date()))
 
-        col1, col2, col3, col4, col5, col6, col7 , col8, col9, col10, col11, col12 = st.columns(12)
+        col1, col2, col3, col4, col5, col6, col7 , col8, col9, col10, col11, col12 = st.columns((1,1,1,1,1,1,1,1,1,1,1,1.50))
 
-        with col1:
+        with col2:
             submit = st.form_submit_button('🔎')
-        with col12:
+
+        with col7:
             delete = st.form_submit_button("❌", help="Will delete all the items retrieved from the search.")
+
+        with col12:
+            if st.form_submit_button('⭕️', help="Will delete all items from Data-Tracker"):
+                with st.spinner('Deleting...'):
+                    delete_db2_items()
 
 
         if delete:
@@ -37,5 +43,5 @@ def data_track():
                 st.error("Please Enter Product Name")
 
 if __name__ == "__main__":
-    apply_settings('eMag Product Management', CENTERED)
+    apply_settings('eMag Product Management', WIDE)
     data_track()
