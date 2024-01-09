@@ -94,12 +94,12 @@ def search_items(driver, search_item_xpath, search_items, results_items_css, car
         except NoSuchElementException:
             captcha_error = st.error('Captcha detected. Attempting to solve...')
             if captcha_error:
-                # time.sleep(500)
                 recaptcha(driver)
                 captcha_error.empty()
                 captha_succcess = st.success('Captcha solved. Searching again...')
                 time.sleep(3)
                 captha_succcess.empty()
+                time.sleep(5)
             search.send_keys(search_it + Keys.ENTER)
 
         finally:

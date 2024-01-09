@@ -10,16 +10,15 @@ def initialize_webdriver(URL):
     try:
         chrome_options = Options()
         chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
         print('Headless Mode Enabled')
 
-        driver = webdriver.Chrome(options=chrome_options)
-        # driver.set_window_size(1400, 1440)
+        chrome_driver_path = ChromeDriverManager().install()
+        driver = webdriver.Chrome(executable_path=chrome_driver_path, options=chrome_options)
+        driver.set_window_size(1400, 1440)
         driver.get(URL)
         print(f'{URL}: Loaded')
         return driver
 
     except Exception as e:
-        print('Error initializing Chrome driver:', str(e))
+        print('Error getting Chrome driver:', str(e))
         return None

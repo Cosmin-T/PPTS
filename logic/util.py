@@ -16,7 +16,7 @@ DETA_KEY = st.secrets['DETA_KEY']
 
 SITE_KEY = "//script[contains(text(), 'grecaptcha')]"
 
-CROMEDRIVER_PATH = '/usr/local/bin/chromedriver'
+CROMEDRIVER_PATH = '/usr/bin/chromedriver'
 CAPSOLVER_EXTENSION_PATH = '/Volumes/Samsung 970 EVO/Documents/Python/PPTS/capsolver_ext'
 
 CAPTCHA_FRAME = '#rcp > div > div.grecaptcha-logo > iframe'
