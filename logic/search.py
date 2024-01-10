@@ -102,9 +102,9 @@ def search_items(driver, search_item_xpath, search_items, results_items_css, car
                 time.sleep(5)
             search.send_keys(search_it + Keys.ENTER)
 
-        finally:
-            driver.quit()
-            print('Driver exited successfully.')
+        # finally:
+        #     driver.quit()
+        #     print('Driver exited successfully.')
 
 def delete_db_items():
     deta = Deta(DETA_KEY)
