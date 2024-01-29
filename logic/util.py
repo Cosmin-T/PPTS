@@ -7,12 +7,12 @@ config = con()
 
 URL = 'https://www.emag.ro/'
 # use this for local
-# API_KEY = config['DEFAULT']['API_KEY']
-# DETA_KEY = config['DEFAULT']['DETA_KEY']
+API_KEY = config['DEFAULT']['API_KEY']
+DETA_KEY = config['DEFAULT']['DETA_KEY']
 
 # use this for streamlit
-API_KEY = st.secrets['API_KEY']
-DETA_KEY = st.secrets['DETA_KEY']
+# API_KEY = st.secrets['API_KEY']
+# DETA_KEY = st.secrets['DETA_KEY']
 
 SITE_KEY = "//script[contains(text(), 'grecaptcha')]"
 

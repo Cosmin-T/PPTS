@@ -1,4 +1,6 @@
 
+import re
+import datetime
 import pandas as pd
 import pygwalker as pyg
 import time
@@ -86,19 +88,22 @@ def is_item_match(item, pname, pprice, pdata):
     item_name_lower = item['Product Name'].lower()
     pname_lower = pname.lower()
 
-
     name_condition = True
     for part in pname_lower.split():
         if part not in item_name_lower:
             name_condition = False
             break
+    clean_price = re.sub(r'[^0-9.]', '', item['Price'])
 
-    clean_price = item['Price'].replace(' Lei', '').replace('.', '').replace(',', '.')
-    item_price = float(clean_price)
-    price_condition = (item_price >= pprice[0] and item_price <= pprice[1])
+    try:
+        item_price = float(clean_price)
+    except ValueError:
+        print(f"Error: Could not convert '{item['Price']}' to a float.")
+        return False
 
+    price_condition = (pprice[0] <= item_price <= pprice[1])
     clean_date = datetime.datetime.strptime(item['Date'], '%Y-%m-%d').date()
-    date_condition = (clean_date >= pdata[0] and clean_date <= pdata[1])
+    date_condition = (pdata[0] <= clean_date <= pdata[1])
 
     return name_condition and price_condition and date_condition
 

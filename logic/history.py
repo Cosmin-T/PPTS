@@ -8,12 +8,28 @@ from st_aggrid import AgGrid
 from deta import Deta
 from logic.util import *
 from logic.util import *
+import re
+import locale
 
 def dashboard():
     deta = Deta(DETA_KEY)
     db = deta.Base('CostCleverTrack')
     items = db.fetch().items
-    if items:
+
+    cleaned_items = []
+
+    for item in items:
+        clean_price = re.sub(r'[^0-9,]', '', item['Price']).replace(',', '.')
+
+        try:
+            item_price = float(clean_price)
+            item['Price'] = item_price
+            cleaned_items.append(item)
+        except ValueError:
+            print(f"Error: Could not convert '{item['Price']}' to a float.")
+            return False
+
+    if cleaned_items:
         items_df = pd.DataFrame(items)
         pyg_html = pyg.walk(items_df, return_html=True)
         custom_style = """
