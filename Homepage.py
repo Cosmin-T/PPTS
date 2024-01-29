@@ -8,17 +8,23 @@ from logic.settings import *
 import requests
 
 # For future usage
-def homepage_lottie(url):
-    r = requests.get(url)
+def homepage_lottie(lottie_url):
+    r = requests.get(lottie_url)
     if r.status_code != 200:
-        print(f"Failed to load {url}")
+        print(f"Failed to load {lottie_url}")
         return None
     return r.json()
 
 def welcome():
     st.markdown("---")
-    st.title("Welcome!")
-    for _ in range(21):
+    css = """
+    .big-title {
+    font-size: 180px;
+    }
+    """
+    st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+    st.markdown(f"<h1 class='big-title'>Welcome!</h1>", unsafe_allow_html=True)
+    for _ in range(10):
         _ = st.markdown("#")
     st.markdown("---")
     st.markdown("##### © CosminT")
