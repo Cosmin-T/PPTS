@@ -122,9 +122,10 @@ def display_found_items(found_items, pname):
 
 
 def show_price_summary(found_items, pname):
-    highest_price_item = max(found_items, key=lambda x: float(x['Price'].replace(' Lei', '').replace('.', '').replace(',', '.')))
-    lowest_price_item = min(found_items, key=lambda x: float(x['Price'].replace(' Lei', '').replace('.', '').replace(',', '.')))
-    average_price = "".join(["{:,}".format(sum(int(item['Price'].replace(' Lei', '').replace('.', '').replace(',', '')) for item in found_items) // len(found_items) // 100).replace(',', '.'), ",", str(sum(int(item['Price'].replace(' Lei', '').replace('.', '').replace(',', '')) for item in found_items) // len(found_items) % 100).rjust(2, '0'), " Lei"])
+    highest_price_item = max(found_items, key=lambda x: float(x['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '.')))
+    lowest_price_item = min(found_items, key=lambda x: float(x['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '.')))
+    average_price = "".join(["{:,}".format(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in found_items) // len(found_items) // 100).replace(',', '.'), ",", str(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in found_items) // len(found_items) % 100).rjust(2, '0'), " Lei"])
+
 
 
     st.markdown("---")

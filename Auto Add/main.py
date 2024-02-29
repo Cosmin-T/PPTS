@@ -10,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 
 URL = 'http://localhost:8501/Search'
 CROMEDRIVER_PATH = '/usr/local/bin/chromedriver'
-SEARCH_XPATH = '//*[@id="root"]/div[1]/div[1]/div/div/div/section[2]/div[1]/div/div/div[4]/div/div/div[2]/div/div[1]/div/input'
+SEARCH_XPATH = '//*[@id="root"]/div[1]/div[1]/div/div/div/section[2]/div[1]/div/div/div/div[4]/div/div/div/div[2]/div/div[1]/div/input'
 ITEMS = ['Macbook Air M2' + ' / ' + 'Macbook Air M3' + ' / ' + 'Iphone 15 Pro Max' + ' / ' + 'Iphone 15 pro']
 TRY_AGAIN_XPATH = '//*[@id="root"]/div[1]/div[1]/div/div/div/section[2]/div[1]/div/div/div[5]/div/div/div/div/div'
 ADD_XPATH = '//*[@id="bui7__anchor"]/button'
