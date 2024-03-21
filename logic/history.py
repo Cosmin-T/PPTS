@@ -31,20 +31,25 @@ def dashboard():
 
     if cleaned_items:
         items_df = pd.DataFrame(items)
-        pyg_html = pyg.walk(items_df, return_html=True)
-        custom_style = """
+        pyg_html = pyg.walk(items_df).to_html()
+
+        if isinstance(pyg_html, str):
+            custom_style = """
             <style>
-                .App {
-                    background-color: #1a1a1a !important; /* or use the specific color code for zinc-900 */
-                    color: #ffffff !important;
-                }
-                /* Add additional global styles for table, tr, td, th, etc., if necessary */
+            body, html {
+                background-color: #1a1a1a !important; /* or use the specific color code for zinc-900 */
+                color: #ffffff !important;
+            }
+            /* Add additional global styles for table, tr, td, th, etc., if necessary */
             </style>
             """
-        head_index = pyg_html.find('</head>')
-        if head_index != -1:
-                pyg_html = pyg_html[:head_index] + custom_style + pyg_html[head_index:]
-        else:
-                pyg_html = custom_style + pyg_html
 
-        stc.html(pyg_html, scrolling=True, height=893)
+            head_index = pyg_html.find('</head>')
+            if head_index != -1:
+                    pyg_html = pyg_html[:head_index] + custom_style + pyg_html[head_index:]
+            else:
+                    pyg_html = custom_style + pyg_html
+
+            stc.html(pyg_html, scrolling=True, height=893)
+        else:
+            print("Error: pyg.walk did not return a string.")
