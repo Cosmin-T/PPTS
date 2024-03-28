@@ -163,9 +163,7 @@ def show_price_summary(found_items, pname):
 
     highest_price_item = max(valid_items, key=lambda x: float(x['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '.')))
     lowest_price_item = min(valid_items, key=lambda x: float(x['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '.')))
-    average_price = "".join(["{:,}".format(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in valid_items) // len(valid_items) // 100).replace(',', '.'), ",", str(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in valid_items) // len(valid_items) % 100).rjust(2, '0'), " Lei"])
-
-
+    average_price = "".join(["{:,}".format(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in valid_items) // len(valid_items) // 100).replace(',', '.'), ",", str(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in valid_items) // len(valid_items) % 100).rjust(2, '0')])
 
     st.markdown("---")
     st.markdown(f"## Price Summary for '{pname}'")
