@@ -138,8 +138,6 @@ def is_item_match(item, pname, pprice, pdata):
         return False
 
 
-
-
 def display_found_items(found_items, pname):
     if found_items:
         item_df = pd.DataFrame(found_items)
