@@ -18,16 +18,20 @@ def dashboard():
 
     cleaned_items = []
 
+    # items_with_price = [item for item in items if 'Price' in item]
+    items_with_price = []
     for item in items:
-        clean_price = re.sub(r'[^0-9,]', '', item['Price']).replace(',', '.')
+        if 'Price' in item:
+            items_with_price.append(item)
 
+    for item in items_with_price:
+        clean_price = re.sub(r'[^0-9,]', '', item['Price']).replace(',', '.')
         try:
             item_price = float(clean_price)
             item['Price'] = item_price
             cleaned_items.append(item)
         except ValueError:
             print(f"Error: Could not convert '{item['Price']}' to a float.")
-            return False
 
     if cleaned_items:
         items_df = pd.DataFrame(items)

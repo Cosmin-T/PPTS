@@ -1,5 +1,6 @@
 
 import re
+import locale
 import datetime
 import pandas as pd
 import pygwalker as pyg
@@ -47,6 +48,11 @@ def search_db2_item(pname, pprice, pdata):
     deta = Deta(DETA_KEY)
     db = deta.Base('CostCleverTrack')
     items = db.fetch().items
+
+    if items:
+        print('All headers:')
+        print(items[0].keys())
+
     found_items = []
     progress_bar = st.progress(0)
 
@@ -85,27 +91,53 @@ def delete_db2_searched_items(pname, pprice, pdata):
 
 
 def is_item_match(item, pname, pprice, pdata):
-    item_name_lower = item['Product Name'].lower()
-    pname_lower = pname.lower()
+    if not pname:
+        pname_lower = ''
+    else:
+        pname_lower = pname.lower()
+
+    if 'Product Name' not in item:
+        return False
+
+    item_name_lower = item.get('Product Name', '').lower()
 
     name_condition = True
-    for part in pname_lower.split():
-        if part not in item_name_lower:
-            name_condition = False
-            break
-    clean_price = re.sub(r'[^0-9.]', '', item['Price'])
+    if pname_lower:
+        for part in pname_lower.split():
+            if part not in item_name_lower:
+                name_condition = False
+                break
 
+    locale.setlocale(locale.LC_ALL, '')
+    clean_price = re.sub(r'[^\d,]', '', item.get('Price', ''))
+    clean_price = clean_price.replace(',', '.')
     try:
         item_price = float(clean_price)
     except ValueError:
-        print(f"Error: Could not convert '{item['Price']}' to a float.")
+        print(f"Error: Could not convert '{item.get('Price', '')}' to a float.")
         return False
 
     price_condition = (pprice[0] <= item_price <= pprice[1])
-    clean_date = datetime.datetime.strptime(item['Date'], '%Y-%m-%d').date()
-    date_condition = (pdata[0] <= clean_date <= pdata[1])
+    try:
+        clean_date = datetime.datetime.strptime(item.get('Date', ''), '%Y-%m-%d').date()
+    except ValueError:
+        print(f"Error: Could not convert '{item.get('Date', '')}' to a valid date.")
+        return False
 
-    return name_condition and price_condition and date_condition
+    date_condition = (pdata[0] <= clean_date <= pdata[1])
+    if not name_condition:
+        print(f"Product name condition not met. Expected: '{pname}', Actual: '{item.get('Product Name', '')}'")
+    if not price_condition:  # Print the price condition message only when it's met
+        print(f"Price condition not met. Expected range: {pprice}, Actual price: {item_price}")
+    if not date_condition:
+        print(f"Date condition not met. Expected range: {pdata}, Actual date: {clean_date}")
+
+    if name_condition and price_condition and date_condition:
+        return True
+    else:
+        return False
+
+
 
 
 def display_found_items(found_items, pname):
@@ -122,9 +154,18 @@ def display_found_items(found_items, pname):
 
 
 def show_price_summary(found_items, pname):
-    highest_price_item = max(found_items, key=lambda x: float(x['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '.')))
-    lowest_price_item = min(found_items, key=lambda x: float(x['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '.')))
-    average_price = "".join(["{:,}".format(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in found_items) // len(found_items) // 100).replace(',', '.'), ",", str(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in found_items) // len(found_items) % 100).rjust(2, '0'), " Lei"])
+    valid_items = []
+    for item in found_items:
+        if 'Price' in item:
+            valid_items.append(item)
+
+    if not valid_items:
+        st.error("No items with a valid price found.")
+        return
+
+    highest_price_item = max(valid_items, key=lambda x: float(x['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '.')))
+    lowest_price_item = min(valid_items, key=lambda x: float(x['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '.')))
+    average_price = "".join(["{:,}".format(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in valid_items) // len(valid_items) // 100).replace(',', '.'), ",", str(sum(int(item['Price'].replace('de la ', '').replace(' Lei', '').replace('.', '').replace(',', '')) for item in valid_items) // len(valid_items) % 100).rjust(2, '0'), " Lei"])
 
 
 
